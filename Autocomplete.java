@@ -16,7 +16,6 @@ public class Autocomplete
     public Autocomplete(Term[] terms)
     {
         this.terms = terms;
-        Arrays.sort(terms);
     }
     
     //Returns all terms that start with the given prefix, in descending order of weight
@@ -32,6 +31,7 @@ public class Autocomplete
         {
             Term[] noSuggestions = new Term[1];
             noSuggestions[0] = new Term("No Suggestions", 0);
+            
             return noSuggestions;
         }
         else
@@ -47,15 +47,27 @@ public class Autocomplete
                 firstIndex++;
             }
             Arrays.sort(suggestions, Term.byReverseWeightOrder());
-            
+     
             return suggestions;
         }
     }
     
-    //Returns the number of terms taht start with the given prefix.
+    //Returns the number of terms that start with the given prefix.
     public int numberOfMatches(String prefix)
-    {
-        return 0;
+    {   
+        Term query = new Term(prefix, 0);
+        
+        int firstIndex = BinarySearchDeluxe.firstIndexOf(terms, query, Term.byPrefixOrder(query.getQuery().length()));
+        int lastIndex  = BinarySearchDeluxe.lastIndexOf(terms, query, Term.byPrefixOrder(query.getQuery().length()));
+        
+        if (firstIndex == -1)
+        {
+            return 0;
+        }
+        else
+        {
+            return lastIndex - firstIndex;
+        }
     }
     
     public static void main(String[] args) 
@@ -98,20 +110,7 @@ public class Autocomplete
             {
                 StdOut.println(results[i]);
             }
-        }
-        
+        }   
         StdOut.println("Exit Success");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

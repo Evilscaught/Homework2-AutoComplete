@@ -144,10 +144,3 @@ public class BinarySearchDeluxe
         StdOut.println("Terminated!");
     }
 }
-
-
-
-
-
-
-
