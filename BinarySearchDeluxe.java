@@ -4,6 +4,8 @@ import java.util.Comparator;
 /*Created on:       Sunday, October 8th, 2017 @7:57 p.m. MST
  *Author:           Scott McKay
  *Collaborators:    None
+ *
+ *Purpose of Class: Binary search results for Auto-Complete
  */
 
 public class BinarySearchDeluxe 
@@ -37,8 +39,10 @@ public class BinarySearchDeluxe
             //Otherwise, comparator returns zero, therefore key == array[middle]
             else
             {
-                //Do something here to find the first occurrence.
+                //Save location of number that has been found.
                 firstIndex = middle;
+                
+                //Binary search left half until first index is found.
                 high = middle - 1;
             }
         }
@@ -76,12 +80,13 @@ public class BinarySearchDeluxe
             //Otherwise, comparator returns zero, therefore key == array[middle]
             else
             {
-                //Do something here to find the LAST occurrence.
+                //Save location of number that has been found
                 lastIndex = middle;
+                
+                //Binary search right half until last index is found.
                 low = middle + 1;
             }
         }
-        StdOut.println("Ending While Loop");
         //Need to test key against low and high, so that you know what index to return.
         return lastIndex;  
     }
@@ -103,6 +108,7 @@ public class BinarySearchDeluxe
     //Unit testing
     public static void main(String[] args)
     {
+        //Pseudo-file.  These weights do not actually represent actual searches.
         Term[] myTermArr = new Term[15];
         myTermArr[0] = new Term("Missoula", 0);
         myTermArr[1] = new Term("Billings", 0);
@@ -126,6 +132,7 @@ public class BinarySearchDeluxe
         StdOut.println("Array in Sorted Order: ");
         Arrays.sort(myTermArr);
         
+        //Print contents of array after it has been sorted.
         for (Term term : myTermArr)
         {
             StdOut.println(term.toString());

@@ -38,11 +38,11 @@ public class Term implements Comparable<Term>
             public int compare(Term term1, Term term2) 
             {
                 if      (term1.weight < term2.weight)
-                    return -1;
+                    return 1;
                 else if (term1.weight == term2.weight)
                     return 0;
                 else
-                    return 1;
+                    return -1;
             }      
         };
     }
