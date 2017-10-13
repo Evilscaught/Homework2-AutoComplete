@@ -9,7 +9,6 @@
 import java.util.Arrays;
 import java.util.Comparator;
 
-
 public class Term implements Comparable<Term>
 {
     private String query;
@@ -48,24 +47,34 @@ public class Term implements Comparable<Term>
         };
     }
     
-    //TODO FIXME:
     //Compares the two terms in lexicographic order but using only the first r characters of each query.
-    public static Comparator<Term> byPrefixOrder(int index)
+    public static Comparator<Term> byPrefixOrder(int r)
     {
-        if (index < 0)
+        if (r < 0)
         {
             throw new java.lang.IllegalArgumentException("Index cannot be less than zero");
         }
-        
         return new Comparator<Term>()
         {
+            
             @Override
             public int compare(Term term1, Term term2) 
             {
-                term1.query.toLowerCase();
-                term2.query.toLowerCase();
+                int index = r;
+                if (index >= term1.query.length())
+                {
+                    index = term1.query.length();
+                }
+                if (index >= term2.query.length())
+                {
+                    index = term2.query.length();
+                }
+                
+                //Debugging
+                //StdOut.println("Comparing Term 1: " + term1.query.substring(0, index) + " with Term 2: " + term2.query.substring(0, index));
+                
                 //Compare two strings starting at 0 to index. 
-                return term1.query.substring(index).compareTo(term2.query.substring(index));
+                return term1.query.toLowerCase().substring(0, index).compareTo(term2.query.toLowerCase().substring(0, index));
             }  
         };
     }
@@ -74,7 +83,17 @@ public class Term implements Comparable<Term>
     @Override
     public int compareTo(Term that) 
     {
-        return query.compareTo(that.query);
+        return query.toLowerCase().compareTo(that.query.toLowerCase());
+    }
+    
+    public long getWeight()
+    {
+        return weight;
+    }
+    
+    public String getQuery()
+    {
+        return query;
     }
     
     //Returns a string representation of this term in the following format:
@@ -87,34 +106,44 @@ public class Term implements Comparable<Term>
     //Unit testing *(You should have some unit testing here to confirm that your methods work)
     public static void main(String[] args)
     {
-        Term[] myTermArr = new Term[4];
-               myTermArr[0] = new Term("Hello", 1000);
-               myTermArr[1] = new Term("Misery", 500);
-               myTermArr[2] = new Term("Zephyr", 0);
-               myTermArr[3] = new Term("zzz", 50);
-        
+        Term[] myTermArr = new Term[3];
+               myTermArr[0] = new Term("CCCCC", 50);
+               myTermArr[1] = new Term("ABZZZ", 100);
+               myTermArr[2] = new Term("ABDDD", 0);
+               
         //Print array terms
+        StdOut.println("String queries in Term[] array: ");
         for (Term term : myTermArr)
         {
-            StdOut.println(term.query);
-        }
-        StdOut.println("\n\n");
-        
-        //Sort by reverse weight order and print array terms
-        Arrays.sort(myTermArr, Term.byReverseWeightOrder());
-        for (Term term : myTermArr)
-        {
-            StdOut.println(term.query);
+            StdOut.println(term.toString());
         }
         StdOut.println("\n\n");
         
         //Sort by prefix and print array terms
-        Arrays.sort(myTermArr, Term.byPrefixOrder(1));
+        StdOut.println("Sorted by prefix order: (r = 2)");
+        Arrays.sort(myTermArr, Term.byPrefixOrder(2));
         for (Term term : myTermArr)
         {
-            StdOut.println(term.query);
+            StdOut.println(term.toString());
         }
         StdOut.println("\n\n\nProgram Executed");
+        
+        //Sort by reverse weight order and print array terms
+        StdOut.println("Sorted by reverse weight order.");
+        Arrays.sort(myTermArr, Term.byReverseWeightOrder());
+        for (Term term : myTermArr)
+        {
+            StdOut.println(term.toString());
+        }
+        StdOut.println("\n\n");
+        
+        //Sort by prefix and print array terms
+        StdOut.println("Sorted by prefix order: (r = min.length)");
+        Arrays.sort(myTermArr, Term.byPrefixOrder(100));
+        for (Term term : myTermArr)
+        {
+            StdOut.println(term.toString());
+        }  
     }
 }
 

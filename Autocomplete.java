@@ -4,6 +4,8 @@
 
 public class Autocomplete 
 {
+    private Term[] allMatches;
+    
     //Initializes the data structure from the given array of items.
     public Autocomplete(Term[] terms)
     {
@@ -13,11 +15,12 @@ public class Autocomplete
     //Returns all terms that start with the given prefix, in descending roder of weight
     public Term[] allMatches(String prefix)
     {
+        //Return an array. :)
         return null;
     }
     
     //Returns the number of terms taht start with the given prefix.
-    public int numberOfMatches(String prefxi)
+    public int numberOfMatches(String prefix)
     {
         return 0;
     }   
